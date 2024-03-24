@@ -1,4 +1,4 @@
-import { Chat, Store } from "./store/Store";
+import { Chat, Store, userId } from "./store/Store";
 export interface Room{
     roomId: string;
     chats: Chat[]
@@ -27,16 +27,16 @@ export class inMemoryStore implements Store {
         return room.chats.reverse().slice(0, offset).slice(-1 * limit);
     }
 
-    addChat(userId: userId, roomId: string, limit: number, offset: number){
+    addChat(userId: userId, name: string, roomId: string, message: string){
         const room = this.store.get(roomId);
         if (!room) {
         return []
         }
         return room.chats.push {
-            userId;
-            Name: string;
-            message: string; 
-            upvotes: userId[];
+            userId,
+            name,
+            message,
+            upvotes: [];
         }
     }
 
