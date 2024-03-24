@@ -1,5 +1,5 @@
 type userId = string;
-interface Chat {
+export interface Chat {
     userId: userId;
     Name: string;
     message: string; 
@@ -9,7 +9,7 @@ export abstract class Store {
     constructor() {
 
     }
-    initRoom() {
+    initRoom(roomId: string) {
 
         
     }
