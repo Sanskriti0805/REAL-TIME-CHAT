@@ -1,7 +1,4 @@
-
 type userId = string;
-
-
 interface Chat {
     userId: userId;
     Name: string;
