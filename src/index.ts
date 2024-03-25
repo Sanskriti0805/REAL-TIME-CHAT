@@ -1,7 +1,7 @@
 import {server as WebSocketServer} from "websocket"
 var http = require('http');
 
-var server = http.createServer(function(request:any, response:any) {
+const server = http.createServer(function(request:any, response:any) {
     console.log((new Date()) + ' Received request for ' + request.url);
     response.writeHead(404);
     response.end();
@@ -36,6 +36,7 @@ wsServer.on('request', function(request) {
     var connection = request.accept('echo-protocol', request.origin);
     console.log((new Date()) + ' Connection accepted.');
     connection.on('message', function(message) {
+        //to do add limiting rate here
         if (message.type === 'utf8') {
             console.log('Received Message: ' + message.utf8Data);
             connection.sendUTF(message.utf8Data);
