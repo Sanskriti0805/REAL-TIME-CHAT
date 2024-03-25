@@ -1,4 +1,5 @@
 import { Chat, Store, userId } from "./store/Store";
+let globalChatId = 0;
 export interface Room{
     roomId: string;
     chats: Chat[]
@@ -33,6 +34,7 @@ export class inMemoryStore implements Store {
         return []
         }
         return room.chats.push({
+            id: (globalChatId++).toString(),
             userId,
             Name,
             message,
@@ -40,7 +42,17 @@ export class inMemoryStore implements Store {
         })
     }
 
-    upvote(room: string, chatId: string) {
+    upvote(userId: userId, roomId: string, chatId: string) {
+        const room = this.store.get(roomId);
+        if (!room) {
+        return []
+        }
+        // to do make this faster 
+        const chat = room.chats.find(({id}) => id === chatId);
 
+        if (chat) {
+            chat.upvotes.push(userId);
+        }
+        }
     }
-}
+    

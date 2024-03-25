@@ -1,5 +1,6 @@
 export type userId = string;
 export interface Chat {
+    id: string;
     userId: userId;
     Name: string;
     message: string; 
