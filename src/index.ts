@@ -1,4 +1,6 @@
 import {server as WebSocketServer} from "websocket"
+import { UserManager } from "./userManager";
+import { SupportedMessage, UpvoteMessageType, UserMessageType } from "./messages";
 var http = require('http');
 
 const server = http.createServer(function(request:any, response:any) {
@@ -38,15 +40,20 @@ wsServer.on('request', function(request) {
     connection.on('message', function(message) {
         //to do add limiting rate here
         if (message.type === 'utf8') {
-            console.log('Received Message: ' + message.utf8Data);
-            connection.sendUTF(message.utf8Data);
-        }
-        else if (message.type === 'binary') {
-            console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
-            connection.sendBytes(message.binaryData);
-        }
+            try {
+                messageHandler(JSON.parse(message.utf8Data));
+             } catch(e) {
+
+             }
+            //console.log('Received Message: ' + message.utf8Data);
+           // connection.sendUTF(message.utf8Data);
+        } 
     });
     connection.on('close', function(reasonCode, description) {
         console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
     });
 });
+
+function messageHandler(type: SupportedMessage, message: |UserMessageType |UpvoteMessageType) {
+    If p(mes)
+}
