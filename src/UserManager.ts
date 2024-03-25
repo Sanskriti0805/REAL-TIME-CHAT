@@ -1,4 +1,3 @@
-import { Room } from "./inMemoryStore";
 
 interface User {
     name: string;
@@ -16,9 +15,19 @@ export class UserManager {
     }
 
     addUser(name: string, userid: string, roomId: string, socket: WebSocket) {
+        if (!this.users.get(roomId)) {
+            this.users.set(roomId,{
+                users: []
+            })
+              
+        }
+        this.users.get(roomId)?.users.push({
+            id: userid,
+            name,
+        })
 
     }
     removeUser(roomId: string, userId: string) {
-        
+
     }
 }
