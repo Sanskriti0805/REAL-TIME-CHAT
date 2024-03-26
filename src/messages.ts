@@ -8,6 +8,16 @@ export enum SupportedMessage {
 
     }
 
+export type IncomingMessage = {
+    type: SupportedMessage.JoinRoom,
+    payload: InitMessageType
+} | {
+    type: SupportedMessage.SendMessage,
+    payload: UserMessageType
+} | {
+    type: SupportedMessage.UpvoteMessage,
+    payload: UpvoteMessageType
+};
 
 export const InitMessage = z.object({
     name: z.string(),
