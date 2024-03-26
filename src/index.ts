@@ -1,6 +1,7 @@
-import {server as WebSocketServer} from "websocket"
-import { UserManager } from "./userManager";
-import { SupportedMessage, UpvoteMessageType, UserMessageType } from "./messages";
+import {connection, server as WebSocketServer} from "websocket"
+import { UserManager, UserManager } from "./userManager";
+import { IncomingMessage, SupportedMessage, UpvoteMessageType, UserMessageType } from "./messages";
+import { inMemoryStore } from "./inMemoryStore";
 var http = require('http');
 
 const server = http.createServer(function(request:any, response:any) {
@@ -8,6 +9,9 @@ const server = http.createServer(function(request:any, response:any) {
     response.writeHead(404);
     response.end();
 });
+const userManager = new UserManager();
+const store = new inMemoryStore();
+
 server.listen(8080, function() {
     console.log((new Date()) + ' Server is listening on port 8080');
 });
@@ -41,7 +45,7 @@ wsServer.on('request', function(request) {
         //to do add limiting rate here
         if (message.type === 'utf8') {
             try {
-                messageHandler(JSON.parse(message.utf8Data));
+                messageHandler(connection, JSON.parse(message.utf8Data));
              } catch(e) {
 
              }
@@ -54,6 +58,9 @@ wsServer.on('request', function(request) {
     });
 });
 
-function messageHandler(type: SupportedMessage, message: |UserMessageType |UpvoteMessageType) {
-    If p(mes)
+function messageHandler(ws: connection, message: IncomingMessage) {
+    If (message.type = SupportedMessage.JoinRoom) {
+        const payload = message.payload;
+
+    }
 }
