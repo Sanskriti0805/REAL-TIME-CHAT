@@ -1,7 +1,7 @@
 import {connection, server as WebSocketServer} from "websocket"
-import { UserManager, UserManager } from "./userManager";
+import { UserManager} from "./UserManager";
 import { IncomingMessage, SupportedMessage, UpvoteMessageType, UserMessageType } from "./messages";
-import { inMemoryStore } from "./inMemoryStore";
+import { InMemoryStore} from "./inMemoryStore";
 var http = require('http');
 
 const server = http.createServer(function(request:any, response:any) {
@@ -10,7 +10,7 @@ const server = http.createServer(function(request:any, response:any) {
     response.end();
 });
 const userManager = new UserManager();
-const store = new inMemoryStore();
+const store = new InMemoryStore();
 
 server.listen(8080, function() {
     console.log((new Date()) + ' Server is listening on port 8080');
@@ -59,8 +59,13 @@ wsServer.on('request', function(request) {
 });
 
 function messageHandler(ws: connection, message: IncomingMessage) {
-    If (message.type = SupportedMessage.JoinRoom) {
+    if (message.type = SupportedMessage.JoinRoom) {
         const payload = message.payload;
-
+        userManager.addUser(payload.name, payload.userId, payload.roomId, ws);
     }
+    if (message.type = SupportedMessage.SendMessage) {
+        const payload = message.payload;
+        const user = userManager,getUser(payload.roomId, payload.userId);
+        userManager.addUser(payload.name, payload.userId, payload.roomId, ws);
+}
 }
