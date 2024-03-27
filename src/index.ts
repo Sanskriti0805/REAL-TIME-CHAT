@@ -1,6 +1,6 @@
 import {connection, server as WebSocketServer} from "websocket"
 import { UserManager} from "./UserManager";
-import { IncomingMessage, SupportedMessage, UpvoteMessageType, UserMessageType } from "./messages";
+import { IncomingMessage, SupportedMessage, UpvoteMessageType, UserMessageType } from "./messages/incomingMessages";
 import { InMemoryStore} from "./inMemoryStore";
 var http = require('http');
 
@@ -59,13 +59,24 @@ wsServer.on('request', function(request) {
 });
 
 function messageHandler(ws: connection, message: IncomingMessage) {
-    if (message.type = SupportedMessage.JoinRoom) {
+    if (message.type == SupportedMessage.JoinRoom) {
         const payload = message.payload;
         userManager.addUser(payload.name, payload.userId, payload.roomId, ws);
     }
-    if (message.type = SupportedMessage.SendMessage) {
+
+    if (message.type === SupportedMessage.SendMessage) {
         const payload = message.payload;
         const user = userManager,getUser(payload.roomId, payload.userId);
-        userManager.addUser(payload.name, payload.userId, payload.roomId, ws);
-}
+            if (!user) {
+                console.error("user not found in the db");
+                return;
+            }
+            store.addChat(payload.userId, user.name, payload.roomId, payload.message);
+            }
+
+
+            if (message.type === SupportedMessage.UpvoteMessage) {
+                const payload = message.payload;
+                store.upvote(payload.userId, payload.roomId, payload.chatId);
+            }
 }

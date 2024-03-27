@@ -37,7 +37,8 @@ export class UserManager {
         }
         
     }
-    getUser(roomId: string, userId: string):User {
-
+    getUser(roomId: string, userId: string):User | null {
+        const user = this.rooms.get(roomId)?.users.find((({id}) => id === userId));
+        return user ?? null;
     }
 }
