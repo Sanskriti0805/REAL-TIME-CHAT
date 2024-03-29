@@ -1,8 +1,11 @@
-import {connection, server as WebSocketServer} from "websocket"
+import { connection, server as WebSocketServer} from "websocket"
 import { UserManager} from "./UserManager";
-import { IncomingMessage, SupportedMessage, UpvoteMessageType, UserMessageType } from "./messages/incomingMessages";
-import { InMemoryStore} from "./inMemoryStore";
-var http = require('http');
+import { IncomingMessage, SupportedMessage} from "./messages/incomingMessages";
+import { InMemoryStore} from "./store/inMemoryStore";
+import http from 'http';
+import { OutgoingMessage} from "./messages/outgoingMessages";
+
+
 
 const server = http.createServer(function(request:any, response:any) {
     console.log((new Date()) + ' Received request for ' + request.url);
@@ -72,7 +75,17 @@ function messageHandler(ws: connection, message: IncomingMessage) {
                 return;
             }
             store.AddChat(payload.userId, user.name, payload.roomId, payload.message);
+
+            const OutgoingPayload = {
+                type: OutgoingMessage.AddChat,
+                payload: {
+                    roomId,
+                    message,
+                    name: user.name,
+                    upvotes:
+                }
             }
+        }
 
 
             if (message.type === SupportedMessage.UpvoteMessage) {
