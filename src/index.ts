@@ -71,7 +71,7 @@ function messageHandler(ws: connection, message: IncomingMessage) {
                 console.error("user not found in the db");
                 return;
             }
-            store.addChat(payload.userId, user.name, payload.roomId, payload.message);
+            store.AddChat(payload.userId, user.name, payload.roomId, payload.message);
             }
 
 

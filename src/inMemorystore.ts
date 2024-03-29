@@ -30,7 +30,7 @@ export class InMemoryStore implements Store {
         return room.chats.reverse().slice(0, offset).slice(-1 * limit);
     }
 
-    addChat(userId: userId, name: string, roomId: string, message: string) {
+    AddChat(userId: userId, name: string, roomId: string, message: string) {
         if (!this.store.get(roomId)) {
             this.initRoom(roomId);
         }
