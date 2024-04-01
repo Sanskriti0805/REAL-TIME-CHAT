@@ -1,9 +1,10 @@
-import { connection, server as WebSocketServer} from "websocket"
+import { connection, server as WebSocketServer} from "websocket";
+import { OutgoingMessage , SupportedMessage as OutgoingSupportedMessages } from "./messages/outgoingMessages";
 import { UserManager} from "./UserManager";
 import { IncomingMessage, SupportedMessage} from "./messages/incomingMessages";
 import { InMemoryStore} from "./store/inMemoryStore";
 import http from 'http';
-import { OutgoingMessage} from "./messages/outgoingMessages";
+
 
 
 
@@ -77,16 +78,20 @@ function messageHandler(ws: connection, message: IncomingMessage) {
             store.AddChat(payload.userId, user.name, payload.roomId, payload.message);
 
             const OutgoingPayload = {
-                type: OutgoingMessage.AddChat,
+                type: OutgoingSupportedMessages.AddChat,
                 payload: {
-                    roomId,
-                    message,
-                    name: user.name,
-                    upvotes:
-                }
+                  type: OutgoingSupportedMessages.AddChat,
+                  payload: {
+                     roomId: payload.roomId,
+                     message: payload.message,
+                     name: user.name,
+                     upvotes: 0
+                           
             }
         }
-
+    } 
+    userManager.broadcast
+}
 
             if (message.type === SupportedMessage.UpvoteMessage) {
                 const payload = message.payload;
