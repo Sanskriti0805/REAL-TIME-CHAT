@@ -83,7 +83,7 @@ function messageHandler(ws: connection, message: IncomingMessage) {
                   type: OutgoingSupportedMessages.AddChat,
                   payload: {
                      roomId: payload.roomId,
-                     message: payload.message
+                     message: payload.message,
                      name: user.name,
                      upvotes: 0
                            
